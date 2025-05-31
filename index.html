@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My GitHub Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+      background-color: #f0f0f0;
+    }
+    header {
+      background-color: #282c34;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    main {
+      margin-top: 30px;
+    }
+    footer {
+      margin-top: 50px;
+      color: #888;
+    }
+    #status, #otherStatus {
+      margin-top: 30px;
+      font-weight: bold;
+      color: #333;
+    }
+    #otherStatus p {
+      font-weight: normal;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to My GitHub Page!</h1>
+  </header>
+  <main>
+    <p>This will be able to see how the website is running and is a test.</p>
+  </main>
+  <footer>
+    &copy; 2025 Your Name
+  </footer>
+
+  <div id="status">Checking this website's status...</div>
+  <div id="otherStatus">Checking other websites...</div>
+
+  <script>
+    // Check this website's performance
+    window.addEventListener("load", () => {
+      const statusElement = document.getElementById("status");
+
+      const isHosted = location.hostname && location.hostname !== "localhost";
+      const loadTime = performance.now(); // time since page load started
+
+      let statusText = "";
+
+      if (!isHosted) {
+        statusText = "Not currently being hosted as a website!";
+      } else if (loadTime > 5000) {
+        statusText = "Very slow!";
+      } else if (loadTime > 3000) {
+        statusText = "Slow!";
+      } else if (loadTime > 1500) {
+        statusText = "Medium";
+      } else {
+        statusText = "Fast!";
+      }
+
+      statusElement.innerText = `This website's status: ${statusText} (${Math.round(loadTime)} ms)`;
+    });
+
+    // Check other websites' performance
+    const sites = [
+      { name: "Trickz", url: "https://cytrixandtrikz.github.io/trickz.github.io" },
+      { name: "Fake Webpage", url: "https://cytrixandtrikz.github.io/fakewebpage.github.io" },
+      { name: "Vault Website", url: "https://cytrixandtrikz.github.io/vault.website.github.io" },
+      { name: "Instawam", url: "https://cytrixandtrikz.github.io/instawam.github.io" }
+    ];
+
+    const output = document.getElementById("otherStatus");
+
+    sites.forEach(site => {
+      const img = new Image();
+      const start = performance.now();
+      const statusLine = document.createElement("p");
+
+      img.onload = () => {
+        const loadTime = Math.round(performance.now() - start);
+        let status = "Fast!";
+        if (loadTime > 5000) status = "Very slow!";
+        else if (loadTime > 3000) status = "Slow!";
+        else if (loadTime > 1500) status = "Medium";
+
+        statusLine.textContent = `${site.name}: ${status} (${loadTime} ms)`;
+        output.appendChild(statusLine);
+      };
+
+      img.onerror = () => {
+        statusLine.textContent = `${site.name}: Not reachable or blocked by CORS`;
+        output.appendChild(statusLine);
+      };
+
+      // Try loading favicon (smallest common image file)
+      img.src = `${site.url}/favicon.ico?check=${Date.now()}`;
+    });
+  </script>
+</body>
+</html>
